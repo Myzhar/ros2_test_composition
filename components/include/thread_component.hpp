@@ -16,4 +16,32 @@
 #ifndef THREAD_COMPONENT_HPP_
 #define THREAD_COMPONENT_HPP_
 
+#include "visibility_control.hpp"
+
+#include <rclcpp/rclcpp.hpp>
+#include <rcutils/logging_macros.h>
+
+#include <thread>
+#include <string>
+#include <atomic>
+
+namespace tc
+{
+class ThreadComponent : public rclcpp::Node
+{
+public:
+  TC_COMPONENTS_EXPORT
+  explicit ThreadComponent(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+
+  virtual ~ThreadComponent();
+
+protected:
+  void thread_func();
+
+private:
+  uint64_t count_;
+  std::atomic<bool> stopThread_;
+  std::shared_ptr<std::thread> thread_;
+};
+}  // namespace tc
 #endif  // THREAD_COMPONENT_HPP_
