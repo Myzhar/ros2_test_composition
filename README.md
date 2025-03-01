@@ -19,15 +19,21 @@ The shutdown behaviors are tested for two different types of ROS 2 Components:
 
 1. Open a terminal (Ctrl+Alt+T) and start a ROS 2 Container:
 
-      `ros2 run rclcpp_components component_container_isolated --use_multi_threaded_executor`
+      ```bash
+      ros2 run rclcpp_components component_container_isolated --use_multi_threaded_executor
+      ```
 
-2. Open a new terminal and load the Timer Component:
+3. Open a new terminal and load the Timer Component:
 
-      `ros2 component load /ComponentManager ros2_test_composition_components tc::TimerComponent`
+      ```bash
+      ros2 component load /ComponentManager ros2_test_composition_components tc::TimerComponent
+      ```
 
-3. In the same terminal, load the Thread Component:
+5. In the same terminal, load the Thread Component:
 
-      `ros2 component load /ComponentManager ros2_test_composition_components tc::ThreadComponent`
+      ```bash
+      ros2 component load /ComponentManager ros2_test_composition_components tc::ThreadComponent
+      ```
 
 In the Container terminal, you should see two increasing counter logs from the two components:
 
@@ -98,13 +104,13 @@ If the destructors are correctly called, you should see something similar to:
 
 Use the command
 
-  ros2 launch ros2_test_composition test_composition.launch.py
+    ros2 launch ros2_test_composition test_composition.launch.py
 
 to automatically create the Container and load the two components.
 
-Finally use `Ctrl+C` to kill the launch process and all the nodes.
+Finally, use `Ctrl+C` to kill the launch process and all the nodes.
 
-If everything works correctly and all the desctructors are called, you should get something similar to this:
+If everything works correctly and all the destructors are called, you should get something similar to this:
 
 ```bash
 $ ros2 launch ros2_test_composition test_composition.launch.py 
@@ -219,8 +225,8 @@ $ ros2 launch ros2_test_composition test_composition.launch.py
 [ERROR] [component_container_isolated-1]: process has died [pid 56630, exit code -9, cmd '/opt/ros/humble/lib/rclcpp_components/component_container_isolated --use_multi_threaded_executor --ros-args --log-level info --ros-args -r __node:=test_container -r __ns:=/test_composition'].
 ```
 
-it seems that the `component_container_isolated` gets stuck at some point and the destructors of the two components are not called completely.
+It seems that the `component_container_isolated` gets stuck at some point, and the destructors of the two components are not correctly called.
 
 The same happens when killing with `Ctrl+C` a `component_container_isolated` manually created by using CLI commands.
 
-> :pushpin: **Note**:: The problem seems to affect only ROS 2 Humble. I was not able to reproduce it with ROS 2 Jazzy
+> :pushpin: **Note**:: The problem seems to affect only ROS 2 Humble. I was not able to reproduce it with ROS 2 Jazzy.
