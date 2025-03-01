@@ -166,6 +166,8 @@ $ ros2 launch ros2_test_composition test_composition.launch.py
 
 ## Problems with ROS 2 Humble
 
+> :pushpin: **Note**:: The problem seems to affect only ROS 2 Humble. I was not able to reproduce it with ROS 2 Jazzy.
+
 This is what happens when killing the launch file in ROS 2 Humble:
 
 ```bash
@@ -227,6 +229,72 @@ $ ros2 launch ros2_test_composition test_composition.launch.py
 
 It seems that the `component_container_isolated` gets stuck at some point, and the destructors of the two components are not correctly called.
 
-The same happens when killing with `Ctrl+C` a `component_container_isolated` manually created by using CLI commands.
+The same happens when killing with `Ctrl+C` a `component_container_isolated` manually created by using CLI commands:
 
-> :pushpin: **Note**:: The problem seems to affect only ROS 2 Humble. I was not able to reproduce it with ROS 2 Jazzy.
+```bash
+$ ros2 run rclcpp_components component_container_isolated --use_multi_threaded_executor
+[INFO] [1740873040.977379421] [ComponentManager]: Load Library: /home/walter/devel/ros2/ros2_walt/install/ros2_test_composition_components/lib/libtimer_component.so
+[INFO] [1740873040.977788694] [ComponentManager]: Found class: rclcpp_components::NodeFactoryTemplate<tc::TimerComponent>
+[INFO] [1740873040.977811672] [ComponentManager]: Instantiate class: rclcpp_components::NodeFactoryTemplate<tc::TimerComponent>
+[INFO] [1740873040.979723386] [timer_component]: *****************************************
+[INFO] [1740873040.979760961] [timer_component]:  ROS 2 Composition Test: Timer Component 
+[INFO] [1740873040.979780098] [timer_component]: *****************************************
+[INFO] [1740873040.979796650] [timer_component]:  * namespace: /
+[INFO] [1740873040.979813273] [timer_component]:  * node name: timer_component
+[INFO] [1740873040.979828847] [timer_component]: *****************************************
+[INFO] [1740873041.980389354] [timer_component]: TimerComponent: 0
+[INFO] [1740873042.980114593] [timer_component]: TimerComponent: 1
+[INFO] [1740873043.980349823] [timer_component]: TimerComponent: 2
+[INFO] [1740873044.980420490] [timer_component]: TimerComponent: 3
+[INFO] [1740873045.980102427] [timer_component]: TimerComponent: 4
+[INFO] [1740873046.980024815] [timer_component]: TimerComponent: 5
+[INFO] [1740873047.600076983] [ComponentManager]: Load Library: /home/walter/devel/ros2/ros2_walt/install/ros2_test_composition_components/lib/libthread_component.so
+[INFO] [1740873047.600473828] [ComponentManager]: Found class: rclcpp_components::NodeFactoryTemplate<tc::ThreadComponent>
+[INFO] [1740873047.600504209] [ComponentManager]: Instantiate class: rclcpp_components::NodeFactoryTemplate<tc::ThreadComponent>
+[INFO] [1740873047.602085791] [thread_component]: *****************************************
+[INFO] [1740873047.602111284] [thread_component]:  ROS 2 Composition Test: Thread Component 
+[INFO] [1740873047.602127557] [thread_component]: *****************************************
+[INFO] [1740873047.602143760] [thread_component]:  * namespace: /
+[INFO] [1740873047.602158567] [thread_component]:  * node name: thread_component
+[INFO] [1740873047.602173304] [thread_component]: *****************************************
+[INFO] [1740873047.602250549] [thread_component]: ThreadComponent thread started.
+[INFO] [1740873047.602318646] [thread_component]: ThreadComponent: 0
+[INFO] [1740873047.980113105] [timer_component]: TimerComponent: 6
+[INFO] [1740873048.602540757] [thread_component]: ThreadComponent: 1
+[INFO] [1740873048.980103051] [timer_component]: TimerComponent: 7
+[INFO] [1740873049.602746782] [thread_component]: ThreadComponent: 2
+[INFO] [1740873049.980098272] [timer_component]: TimerComponent: 8
+[INFO] [1740873050.602923772] [thread_component]: ThreadComponent: 3
+[INFO] [1740873050.980119623] [timer_component]: TimerComponent: 9
+[INFO] [1740873051.603341921] [thread_component]: ThreadComponent: 4
+[INFO] [1740873051.980182932] [timer_component]: TimerComponent: 10
+[INFO] [1740873052.603861799] [thread_component]: ThreadComponent: 5
+[INFO] [1740873052.980444760] [timer_component]: TimerComponent: 11
+[INFO] [1740873053.604143104] [thread_component]: ThreadComponent: 6
+[INFO] [1740873053.980222858] [timer_component]: TimerComponent: 12
+[INFO] [1740873054.604331994] [thread_component]: ThreadComponent: 7
+[INFO] [1740873054.980199986] [timer_component]: TimerComponent: 13
+[INFO] [1740873055.604749934] [thread_component]: ThreadComponent: 8
+[INFO] [1740873055.980488569] [timer_component]: TimerComponent: 14
+[INFO] [1740873056.605309734] [thread_component]: ThreadComponent: 9
+[INFO] [1740873056.980249350] [timer_component]: TimerComponent: 15
+[INFO] [1740873057.605790323] [thread_component]: ThreadComponent: 10
+[INFO] [1740873057.980342005] [timer_component]: TimerComponent: 16
+^C[INFO] [1740873058.445305169] [rclcpp]: signal_handler(signum=2)
+[INFO] [1740873058.445496539] [thread_component]: Ctrl+C received: stopping thread
+[INFO] [1740873058.445509041] [thread_component]: Thread stopped
+[INFO] [1740873058.445514419] [thread_component]: ThreadComponent thread finished.
+^C[INFO] [1740873061.296726440] [rclcpp]: signal_handler(signum=2)
+^C[INFO] [1740873062.336458643] [rclcpp]: signal_handler(signum=2)
+^C[INFO] [1740873062.529026767] [rclcpp]: signal_handler(signum=2)
+^C[INFO] [1740873062.728727419] [rclcpp]: signal_handler(signum=2)
+^C[INFO] [1740873062.904943572] [rclcpp]: signal_handler(signum=2)
+^C[INFO] [1740873063.725067411] [rclcpp]: signal_handler(signum=2)
+^C[INFO] [1740873063.905083973] [rclcpp]: signal_handler(signum=2)
+^C[INFO] [1740873064.077282744] [rclcpp]: signal_handler(signum=2)
+^C[INFO] [1740873064.261484064] [rclcpp]: signal_handler(signum=2)
+^C[INFO] [1740873064.433057021] [rclcpp]: signal_handler(signum=2)
+^C[INFO] [1740873064.905162270] [rclcpp]: signal_handler(signum=2)
+```
+
+
