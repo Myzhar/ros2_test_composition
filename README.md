@@ -10,8 +10,8 @@ This package tests the behavior of ROS 2 composition when shutting down componen
 
 The shutdown behaviors are tested for two different types of ROS 2 Components:
 
-    - `tc::TimerComponent`: a node using a timer to execute periodic tasks.
-    - `tc::ThreadComponent`: a node using thread to execute periodic tasks.
+- `tc::TimerComponent`: a node using a timer to execute periodic tasks.
+- `tc::ThreadComponent`: a node using thread to execute periodic tasks.
 
 ## Test using CLI
 
@@ -19,15 +19,15 @@ The shutdown behaviors are tested for two different types of ROS 2 Components:
 
 1. Open a terminal (Ctrl+Alt+T) and start a ROS 2 Container:
 
-    ros2 run rclcpp_components component_container
+      `ros2 run rclcpp_components component_container`
 
 2. Open a new terminal and load the Timer Component:
 
-    ros2 component load /ComponentManager ros2_test_composition_components tc::TimerComponent
+      `ros2 component load /ComponentManager ros2_test_composition_components tc::TimerComponent`
 
 3. In the same terminal, load the Thread Component:
 
-    ros2 component load /ComponentManager ros2_test_composition_components tc::ThreadComponent
+      `ros2 component load /ComponentManager ros2_test_composition_components tc::ThreadComponent`
 
 In the Container terminal, you should see two increasing counter logs from the two components:
 
