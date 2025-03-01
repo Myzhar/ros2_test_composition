@@ -96,13 +96,67 @@ If the destructors are correctly called, you should see something similar to:
 
 ## Test using Composition with a launch file
 
-Use the command 
+Use the command
 
   ros2 launch ros2_test_composition test_composition.launch.py
 
 to automatically create the Container and load the two components.
 
 Finally use `Ctrl+C` to kill the launch process and all the nodes.
+
+If everything works correctly and all the desctructors are called, you should get something similar to this:
+
+```bash
+$ ros2 launch ros2_test_composition test_composition.launch.py 
+[INFO] [launch]: All log files can be found below /home/walter/.ros/log/2025-03-02-00-23-51-473888-walter-Legion-5-u24-6839
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [launch.user]: * Starting Composable node container: /test_composition/test_container
+[INFO] [launch.user]: * Starting a Timer Component
+[INFO] [launch.user]: * Starting a Thread Component
+[INFO] [component_container_isolated-1]: process started with pid [6867]
+[component_container_isolated-1] [INFO] [1740871431.953412335] [test_composition.test_container]: Load Library: /home/walter/devel/ros2/ros2_wl/install/ros2_test_composition_components/lib/libtimer_component.so
+[component_container_isolated-1] [INFO] [1740871431.953951718] [test_composition.test_container]: Found class: rclcpp_components::NodeFactoryTemplate<tc::TimerComponent>
+[component_container_isolated-1] [INFO] [1740871431.953977699] [test_composition.test_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<tc::TimerComponent>
+[component_container_isolated-1] [INFO] [1740871431.968485863] [test_composition.timer_component]: *****************************************
+[component_container_isolated-1] [INFO] [1740871431.968507374] [test_composition.timer_component]:  ROS 2 Composition Test: Timer Component 
+[component_container_isolated-1] [INFO] [1740871431.968522599] [test_composition.timer_component]: *****************************************
+[component_container_isolated-1] [INFO] [1740871431.968535520] [test_composition.timer_component]:  * namespace: /test_composition
+[component_container_isolated-1] [INFO] [1740871431.968548301] [test_composition.timer_component]:  * node name: timer_component
+[component_container_isolated-1] [INFO] [1740871431.968560313] [test_composition.timer_component]: *****************************************
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/test_composition/timer_component' in container '/test_composition/test_container'
+[component_container_isolated-1] [INFO] [1740871431.970147173] [test_composition.test_container]: Load Library: /home/walter/devel/ros2/ros2_wl/install/ros2_test_composition_components/lib/libthread_component.so
+[component_container_isolated-1] [INFO] [1740871431.970429680] [test_composition.test_container]: Found class: rclcpp_components::NodeFactoryTemplate<tc::ThreadComponent>
+[component_container_isolated-1] [INFO] [1740871431.970473610] [test_composition.test_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<tc::ThreadComponent>
+[component_container_isolated-1] [INFO] [1740871431.973512746] [test_composition.thread_component]: *****************************************
+[component_container_isolated-1] [INFO] [1740871431.973531883] [test_composition.thread_component]:  ROS 2 Composition Test: Thread Component 
+[component_container_isolated-1] [INFO] [1740871431.973544245] [test_composition.thread_component]: *****************************************
+[component_container_isolated-1] [INFO] [1740871431.973557165] [test_composition.thread_component]:  * namespace: /test_composition
+[component_container_isolated-1] [INFO] [1740871431.973571413] [test_composition.thread_component]:  * node name: thread_component
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/test_composition/thread_component' in container '/test_composition/test_container'
+[component_container_isolated-1] [INFO] [1740871431.973583915] [test_composition.thread_component]: *****************************************
+[component_container_isolated-1] [INFO] [1740871431.973677921] [test_composition.thread_component]: ThreadComponent thread started.
+[component_container_isolated-1] [INFO] [1740871431.973787362] [test_composition.thread_component]: ThreadComponent: 0
+[component_container_isolated-1] [INFO] [1740871432.968689415] [test_composition.timer_component]: TimerComponent: 0
+[component_container_isolated-1] [INFO] [1740871432.973894464] [test_composition.thread_component]: ThreadComponent: 1
+[component_container_isolated-1] [INFO] [1740871433.968701863] [test_composition.timer_component]: TimerComponent: 1
+[component_container_isolated-1] [INFO] [1740871433.974004272] [test_composition.thread_component]: ThreadComponent: 2
+[component_container_isolated-1] [INFO] [1740871434.969010348] [test_composition.timer_component]: TimerComponent: 2
+[component_container_isolated-1] [INFO] [1740871434.974146535] [test_composition.thread_component]: ThreadComponent: 3
+[component_container_isolated-1] [INFO] [1740871435.969058791] [test_composition.timer_component]: TimerComponent: 3
+[component_container_isolated-1] [INFO] [1740871435.974265239] [test_composition.thread_component]: ThreadComponent: 4
+^C[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[component_container_isolated-1] [INFO] [1740871436.560358157] [rclcpp]: signal_handler(signum=2)
+[component_container_isolated-1] [INFO] [1740871436.560609096] [test_composition.thread_component]: Ctrl+C received: stopping thread
+[component_container_isolated-1] [INFO] [1740871436.560619573] [test_composition.thread_component]: Thread stopped
+[component_container_isolated-1] [INFO] [1740871436.560622855] [test_composition.thread_component]: ThreadComponent thread finished.
+[component_container_isolated-1] [INFO] [1740871436.560691998] [test_composition.thread_component]: Destroying ThreadComponent...
+[component_container_isolated-1] [INFO] [1740871436.560696258] [test_composition.thread_component]: Joining thread...
+[component_container_isolated-1] [INFO] [1740871436.560701077] [test_composition.thread_component]: Thread joined.
+[component_container_isolated-1] [INFO] [1740871436.560704011] [test_composition.thread_component]: ThreadComponent destroyed.
+[INFO] [component_container_isolated-1]: process has finished cleanly [pid 6867]
+[component_container_isolated-1] [INFO] [1740871436.563705504] [test_composition.timer_component]: Destroying TimerComponent...
+[component_container_isolated-1] [INFO] [1740871436.563724641] [test_composition.timer_component]: TimerComponent destroyed.
+```
 
 ## Problems with ROS 2 Humble
 
@@ -168,3 +222,5 @@ $ ros2 launch ros2_test_composition test_composition.launch.py
 it seems that the `component_container_isolated` gets stuck at some point and the destructors of the two components are not called completely.
 
 The same happens when killing with `Ctrl+C` a `component_container_isolated` manually created by using CLI commands.
+
+> :pushpin: **Note**:: The problem seems to affect only ROS 2 Humble. I was not able to reproduce it with ROS 2 Jazzy

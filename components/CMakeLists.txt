@@ -100,6 +100,6 @@ if(BUILD_TESTING)
 endif()
 
 ament_export_include_directories(include)
-ament_export_libraries(${PROJECT_NAME})
-ament_export_dependencies(${DEPENDENCIES})
+ament_export_libraries(timer_component thread_component)
+ament_export_dependencies(rclcpp rclcpp_components)
 ament_package()
