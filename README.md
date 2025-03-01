@@ -54,8 +54,8 @@ Open a terminal and unload the Timer Component:
 
 If the destructor is correctly called, you should see:
 
-  [INFO] [1740863892.171265019] [timer_component]: Destroying TimerComponent...
-  [INFO] [1740863892.171324522] [timer_component]: TimerComponent destroyed.
+    [INFO] [1740863892.171265019] [timer_component]: Destroying TimerComponent...
+    [INFO] [1740863892.171324522] [timer_component]: TimerComponent destroyed.
 
 Now, unload the Thread Component:
 
@@ -63,12 +63,12 @@ Now, unload the Thread Component:
 
 If the destructor is correctly called, you should see:
 
-  [INFO] [1740865871.023047663] [thread_component]: Destroying ThreadComponent...
-  [INFO] [1740865871.023105361] [thread_component]: Joining thread...
-  [INFO] [1740865871.096381352] [thread_component]: Thread stopped
-  [INFO] [1740865871.096469086] [thread_component]: ThreadComponent thread finished.
-  [INFO] [1740865871.096555005] [thread_component]: Thread joined.
-  [INFO] [1740865871.096602504] [thread_component]: ThreadComponent destroyed.
+    [INFO] [1740865871.023047663] [thread_component]: Destroying ThreadComponent...
+    [INFO] [1740865871.023105361] [thread_component]: Joining thread...
+    [INFO] [1740865871.096381352] [thread_component]: Thread stopped
+    [INFO] [1740865871.096469086] [thread_component]: ThreadComponent thread finished.
+    [INFO] [1740865871.096555005] [thread_component]: Thread joined.
+    [INFO] [1740865871.096602504] [thread_component]: ThreadComponent destroyed.
 
 You can now kill the Container process with `Ctrl+C`.
 
@@ -82,14 +82,14 @@ Select the terminal where the container is running the two components and press 
 
 If the destructors are correctly called, you should see something similar to:
 
-  [...]
-  ^C[INFO] [1740867172.577737212] [rclcpp]: signal_handler(signum=2)
-  [INFO] [1740867172.577987806] [thread_component]: Ctrl+C received: stopping thread
-  [INFO] [1740867172.578000029] [thread_component]: Thread stopped
-  [INFO] [1740867172.578004778] [thread_component]: ThreadComponent thread finished.
-  [INFO] [1740867172.579603680] [thread_component]: Destroying ThreadComponent...
-  [INFO] [1740867172.579611921] [thread_component]: Joining thread...
-  [INFO] [1740867172.579617159] [thread_component]: Thread joined.
-  [INFO] [1740867172.579621420] [thread_component]: ThreadComponent destroyed.
-  [INFO] [1740867172.581202861] [timer_component]: Destroying TimerComponent...
-  [INFO] [1740867172.581223465] [timer_component]: TimerComponent destroyed.
+    [...]
+    ^C[INFO] [1740867172.577737212] [rclcpp]: signal_handler(signum=2)
+    [INFO] [1740867172.577987806] [thread_component]: Ctrl+C received: stopping thread
+    [INFO] [1740867172.578000029] [thread_component]: Thread stopped
+    [INFO] [1740867172.578004778] [thread_component]: ThreadComponent thread finished.
+    [INFO] [1740867172.579603680] [thread_component]: Destroying ThreadComponent...
+    [INFO] [1740867172.579611921] [thread_component]: Joining thread...
+    [INFO] [1740867172.579617159] [thread_component]: Thread joined.
+    [INFO] [1740867172.579621420] [thread_component]: ThreadComponent destroyed.
+    [INFO] [1740867172.581202861] [timer_component]: Destroying TimerComponent...
+    [INFO] [1740867172.581223465] [timer_component]: TimerComponent destroyed.
