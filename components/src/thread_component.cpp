@@ -41,7 +41,7 @@ ThreadComponent::~ThreadComponent()
   stopThread_ = true;
 
   // Kill thread
-  if(thread_->joinable()) {
+  if (thread_->joinable()) {
     RCLCPP_INFO(this->get_logger(), "Joining thread...");
     thread_->join();
     RCLCPP_INFO(this->get_logger(), "Thread joined.");
@@ -60,7 +60,7 @@ void ThreadComponent::thread_func()
       stopThread_ = true;
     }
 
-    if(stopThread_) {
+    if (stopThread_) {
       RCLCPP_INFO(get_logger(), "Thread stopped");
       break;
     }

@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 project(ros2_test_composition_components)
 
+## Generate symbols for IDE indexer
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)

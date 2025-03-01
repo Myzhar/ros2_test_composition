@@ -19,7 +19,7 @@ The shutdown behaviors are tested for two different types of ROS 2 Components:
 
 1. Open a terminal (Ctrl+Alt+T) and start a ROS 2 Container:
 
-      `ros2 run rclcpp_components component_container`
+      `ros2 run rclcpp_components component_container_isolated --use_multi_threaded_executor`
 
 2. Open a new terminal and load the Timer Component:
 
@@ -93,3 +93,78 @@ If the destructors are correctly called, you should see something similar to:
     [INFO] [1740867172.579621420] [thread_component]: ThreadComponent destroyed.
     [INFO] [1740867172.581202861] [timer_component]: Destroying TimerComponent...
     [INFO] [1740867172.581223465] [timer_component]: TimerComponent destroyed.
+
+## Test using Composition with a launch file
+
+Use the command 
+
+  ros2 launch ros2_test_composition test_composition.launch.py
+
+to automatically create the Container and load the two components.
+
+Finally use `Ctrl+C` to kill the launch process and all the nodes.
+
+## Problems with ROS 2 Humble
+
+This is what happens when killing the launch file in ROS 2 Humble:
+
+```bash
+$ ros2 launch ros2_test_composition test_composition.launch.py
+[INFO] [launch]: All log files can be found below /home/walter/.ros/log/2025-03-02-00-03-06-565875-walter-Legion-5-15ACH6H-56619
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [launch.user]: * Starting Composable node container: /test_composition/test_container
+[INFO] [launch.user]: * Starting a Timer Component
+[INFO] [launch.user]: * Starting a Thread Component
+[INFO] [component_container_isolated-1]: process started with pid [56630]
+[component_container_isolated-1] [INFO] [1740870186.909257148] [test_composition.test_container]: Load Library: /home/walter/devel/ros2/ros2_walt/install/ros2_test_composition_components/lib/libtimer_component.so
+[component_container_isolated-1] [INFO] [1740870186.910120519] [test_composition.test_container]: Found class: rclcpp_components::NodeFactoryTemplate<tc::TimerComponent>
+[component_container_isolated-1] [INFO] [1740870186.910152017] [test_composition.test_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<tc::TimerComponent>
+[component_container_isolated-1] [INFO] [1740870186.912552792] [test_composition.timer_component]: *****************************************
+[component_container_isolated-1] [INFO] [1740870186.912592322] [test_composition.timer_component]:  ROS 2 Composition Test: Timer Component 
+[component_container_isolated-1] [INFO] [1740870186.912605242] [test_composition.timer_component]: *****************************************
+[component_container_isolated-1] [INFO] [1740870186.912617884] [test_composition.timer_component]:  * namespace: /test_composition
+[component_container_isolated-1] [INFO] [1740870186.912630665] [test_composition.timer_component]:  * node name: timer_component
+[component_container_isolated-1] [INFO] [1740870186.912642258] [test_composition.timer_component]: *****************************************
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/test_composition/timer_component' in container '/test_composition/test_container'
+[component_container_isolated-1] [INFO] [1740870186.914282817] [test_composition.test_container]: Load Library: /home/walter/devel/ros2/ros2_walt/install/ros2_test_composition_components/lib/libthread_component.so
+[component_container_isolated-1] [INFO] [1740870186.914460561] [test_composition.test_container]: Found class: rclcpp_components::NodeFactoryTemplate<tc::ThreadComponent>
+[component_container_isolated-1] [INFO] [1740870186.914480256] [test_composition.test_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<tc::ThreadComponent>
+[component_container_isolated-1] [INFO] [1740870186.915900327] [test_composition.thread_component]: *****************************************
+[component_container_isolated-1] [INFO] [1740870186.915921699] [test_composition.thread_component]:  ROS 2 Composition Test: Thread Component 
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/test_composition/thread_component' in container '/test_composition/test_container'
+[component_container_isolated-1] [INFO] [1740870186.915934689] [test_composition.thread_component]: *****************************************
+[component_container_isolated-1] [INFO] [1740870186.915945514] [test_composition.thread_component]:  * namespace: /test_composition
+[component_container_isolated-1] [INFO] [1740870186.915957457] [test_composition.thread_component]:  * node name: thread_component
+[component_container_isolated-1] [INFO] [1740870186.915967584] [test_composition.thread_component]: *****************************************
+[component_container_isolated-1] [INFO] [1740870186.916025971] [test_composition.thread_component]: ThreadComponent thread started.
+[component_container_isolated-1] [INFO] [1740870186.916082053] [test_composition.thread_component]: ThreadComponent: 0
+[component_container_isolated-1] [INFO] [1740870187.912827983] [test_composition.timer_component]: TimerComponent: 0
+[component_container_isolated-1] [INFO] [1740870187.916200102] [test_composition.thread_component]: ThreadComponent: 1
+[component_container_isolated-1] [INFO] [1740870188.913014093] [test_composition.timer_component]: TimerComponent: 1
+[component_container_isolated-1] [INFO] [1740870188.916747428] [test_composition.thread_component]: ThreadComponent: 2
+[component_container_isolated-1] [INFO] [1740870189.913053224] [test_composition.timer_component]: TimerComponent: 2
+[component_container_isolated-1] [INFO] [1740870189.917040361] [test_composition.thread_component]: ThreadComponent: 3
+[component_container_isolated-1] [INFO] [1740870190.912790750] [test_composition.timer_component]: TimerComponent: 3
+[component_container_isolated-1] [INFO] [1740870190.917506466] [test_composition.thread_component]: ThreadComponent: 4
+[component_container_isolated-1] [INFO] [1740870191.913063152] [test_composition.timer_component]: TimerComponent: 4
+[component_container_isolated-1] [INFO] [1740870191.918061583] [test_composition.thread_component]: ThreadComponent: 5
+[component_container_isolated-1] [INFO] [1740870192.913011878] [test_composition.timer_component]: TimerComponent: 5
+[component_container_isolated-1] [INFO] [1740870192.918465601] [test_composition.thread_component]: ThreadComponent: 6
+[component_container_isolated-1] [INFO] [1740870193.913020913] [test_composition.timer_component]: TimerComponent: 6
+[component_container_isolated-1] [INFO] [1740870193.919016531] [test_composition.thread_component]: ThreadComponent: 7
+^C[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[component_container_isolated-1] [INFO] [1740870194.314739311] [rclcpp]: signal_handler(signum=2)
+[component_container_isolated-1] [INFO] [1740870194.314891564] [test_composition.thread_component]: Ctrl+C received: stopping thread
+[component_container_isolated-1] [INFO] [1740870194.314900085] [test_composition.thread_component]: Thread stopped
+[component_container_isolated-1] [INFO] [1740870194.314903437] [test_composition.thread_component]: ThreadComponent thread finished.
+[ERROR] [component_container_isolated-1]: process[component_container_isolated-1] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[INFO] [component_container_isolated-1]: sending signal 'SIGTERM' to process[component_container_isolated-1]
+[component_container_isolated-1] [INFO] [1740870200.131167169] [rclcpp]: signal_handler(signum=15)
+[ERROR] [component_container_isolated-1]: process[component_container_isolated-1] failed to terminate '10.0' seconds after receiving 'SIGTERM', escalating to 'SIGKILL'
+[INFO] [component_container_isolated-1]: sending signal 'SIGKILL' to process[component_container_isolated-1]
+[ERROR] [component_container_isolated-1]: process has died [pid 56630, exit code -9, cmd '/opt/ros/humble/lib/rclcpp_components/component_container_isolated --use_multi_threaded_executor --ros-args --log-level info --ros-args -r __node:=test_container -r __ns:=/test_composition'].
+```
+
+it seems that the `component_container_isolated` gets stuck at some point and the destructors of the two components are not called completely.
+
+The same happens when killing with `Ctrl+C` a `component_container_isolated` manually created by using CLI commands.
